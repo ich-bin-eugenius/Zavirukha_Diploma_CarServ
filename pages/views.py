@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .models import Technicians, Testimonials
 
 
-def index_404(request) -> HttpResponse:
+def index_404(request, exception=None) -> HttpResponse:
     """
     A view for the error page.
 
@@ -17,7 +17,7 @@ def index_404(request) -> HttpResponse:
         HttpResponse: Response with rendered '404.html' template.
     """
 
-    return render(request, '404.html')
+    return render(request, '404.html', status=404)
 
 
 def index_team(request) -> HttpResponse:
