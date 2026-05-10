@@ -7,6 +7,12 @@
                     <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>{{ contacts.address|default:"Pražská 123, Praha" }}</p>
                     <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>{{ contacts.phone|default:"+123 456 789" }}</p>
                     <p class="mb-2"><i class="fa fa-envelope me-3"></i>{{ contacts.email|default:"jevhenzavirukha@gmail.com" }}</p>
+                    <p class="mb-2">
+                      <i class="fab fa-github me-3"></i>
+                      <a href="https://github.com/ich-bin-eugenius/Project_CarServ" class="text-light text-decoration-none">
+                        {{ contacts.github|default:"ich-bin-eugenius/Project_CarServ" }}
+                      </a>
+                    </p>
                     <div class="d-flex pt-2">
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>

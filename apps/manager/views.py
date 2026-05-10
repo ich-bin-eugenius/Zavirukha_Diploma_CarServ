@@ -21,4 +21,4 @@ def is_manager(user) -> bool:
 
 @user_passes_test(is_manager, login_url='/login/')
 def index(request) -> HttpResponse:
-    return render(request, 'apps/manager.html')
+    return render(request, 'manager/manager.html')
