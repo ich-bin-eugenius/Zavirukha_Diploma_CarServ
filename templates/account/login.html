@@ -1,87 +1,87 @@
 {% extends 'index.html' %}
 
 {% block content %}
-    <!-- Service Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="d-flex py-5 px-4">
-                        <i class="fa fa-certificate fa-3x text-primary flex-shrink-0"></i>
-                        <div class="ps-4">
-                            <h5 class="mb-3">Quality Servicing</h5>
-                            <p>Diam dolor diam ipsum sit amet diam et eos erat ipsum</p>
-                            <a class="text-secondary border-bottom" href="">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="d-flex bg-light py-5 px-4">
-                        <i class="fa fa-users-cog fa-3x text-primary flex-shrink-0"></i>
-                        <div class="ps-4">
-                            <h5 class="mb-3">Expert Workers</h5>
-                            <p>Diam dolor diam ipsum sit amet diam et eos erat ipsum</p>
-                            <a class="text-secondary border-bottom" href="">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="d-flex py-5 px-4">
-                        <i class="fa fa-tools fa-3x text-primary flex-shrink-0"></i>
-                        <div class="ps-4">
-                            <h5 class="mb-3">Modern Equipment</h5>
-                            <p>Diam dolor diam ipsum sit amet diam et eos erat ipsum</p>
-                            <a class="text-secondary border-bottom" href="">Read More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Service End -->
+<div class="container py-5" style="margin-top: 90px;">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
 
-
-    <!-- Login Start -->
-    {% if user.is_authenticated %}
-        <div class="row justify-content-center">
-        <div class="col-lg-6">
-    <h5 class="mb-3">You are already logged in, you need to log out to login.</h5>
-        </div>
-        </div>
-    {% else %}
-        <div class="container-fluid contact position-relative px-5" style="margin-top: 90px;"></div>
-        <div class="contact" style="margin-top: 90px;">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <form method="post">
+            {% if user.is_authenticated %}
+                <div class="card shadow-sm border-0 text-center p-4">
+                    <div class="card-body">
+                        <i class="bi bi-person-check text-success fs-1"></i>
+                        <h4 class="mt-3">You are already loged in</h4>
+                        <p class="text-muted">If you want to change an account, you have to log out.</p>
+                        <a href="{% url 'logout' %}" class="btn btn-outline-danger mt-2">Log out</a>
+                    </div>
+                </div>
+            {% else %}
+                <!-- Registration Block -->
+                <div class="card shadow-lg border-0">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="text-center mb-4">Log in</h3>
+                        <form method="post" novalidate>
                             {% csrf_token %}
-                            <div class="form-error">{{ form.non_field_errors }}</div>
-                            <div class="row gy-4">
-                                {% for field in form %}
-                                    <p><label class="form-label" for="{{ field.id_for_label }}">{{field.label}}: </label>{{ field }}</p>
-                                    <div class="form-error">{{ field.errors }}</div>
-                                {% endfor %}
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.non_field_errors }}
+                                </div>
+                            {% endif %}
+                            {% for field in form %}
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="{{ field.id_for_label }}">
+                                        {{ field.label }}
+                                    </label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ field.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg">Log in</button>
                             </div>
-                            <div class="text-center"><button type="submit">Register</button></div>
                         </form>
                     </div>
                 </div>
+            {% endif %}
+
+            <!-- Message Block -->
+            {% if messages %}
+            <div class="mt-4">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
             </div>
+            {% endif %}
+
         </div>
-    {% endif %}
-    <!-- Login End -->
-
-
-    <!-- Message Start -->
-    {% if messages %}
-    <div class="alert-container">
-        {% for message in messages %}
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                {{ message }}
-            </div>
-        {% endfor %}
     </div>
-    {% endif %}
-    <!-- Message End -->
+</div>
+
+<style>
+    input, select, textarea {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: 0.375rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    input:focus {
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+    }
+</style>
+
 {% endblock %}

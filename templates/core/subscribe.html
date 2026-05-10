@@ -1,62 +1,84 @@
 {% extends 'index.html' %}
 
 {% block content %}
-   <!-- Service Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="d-flex py-5 px-4">
-                        <i class="fa fa-certificate fa-3x text-primary flex-shrink-0"></i>
-                        <div class="ps-4">
-                            <h5 class="mb-3">Quality Servicing</h5>
-                            <p>Diam dolor diam ipsum sit amet diam et eos erat ipsum</p>
-                            <a class="text-secondary border-bottom" href="{% url 'home:services' %}">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="d-flex bg-light py-5 px-4">
-                        <i class="fa fa-users-cog fa-3x text-primary flex-shrink-0"></i>
-                        <div class="ps-4">
-                            <h5 class="mb-3">Expert Workers</h5>
-                            <p>Diam dolor diam ipsum sit amet diam et eos erat ipsum</p>
-                            <a class="text-secondary border-bottom" href="{% url 'home:services' %}">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="d-flex py-5 px-4">
-                        <i class="fa fa-tools fa-3x text-primary flex-shrink-0"></i>
-                        <div class="ps-4">
-                            <h5 class="mb-3">Modern Equipment</h5>
-                            <p>Diam dolor diam ipsum sit amet diam et eos erat ipsum</p>
-                            <a class="text-secondary border-bottom" href="{% url 'home:services' %}">Read More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Service End -->
-
-{% if user.is_authenticated %}
+<div class="container py-5" style="margin-top: 90px;">
     <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <form action="{% url 'subscribe' %}" method="post">
-                {% csrf_token %}
-                <div class="input-group">
-                    {{ subscriber_form.email }}
-                    <button type="submit" class="btn btn-primary">Subscribe</button>
+        <div class="col-md-8 col-lg-6">
+
+            {% if user.is_authenticated %}
+                <!-- Subscription Box for Logged In Users -->
+                <div class="card shadow-lg border-0 overflow-hidden">
+                    <div class="card-body p-5 text-center">
+                        <div class="mb-4">
+                            <i class="bi bi-envelope-heart text-danger" style="font-size: 3.5rem;"></i>
+                        </div>
+                        <h2 class="fw-bold mb-3">Newsletter Subscription</h2>
+                        <p class="text-muted mb-4">Stay updated! Subscribe to get the latest news and special offers directly to your inbox.</p>
+
+                        <form action="{% url 'subscribe' %}" method="post">
+                            {% csrf_token %}
+                            <div class="input-group input-group-lg shadow-sm">
+                                {# Customizing the Django form field styling #}
+                                {{ subscriber_form.email }}
+                                <button type="submit" class="btn btn-danger px-4">
+                                    <span class="fw-bold">Subscribe</span>
+                                </button>
+                            </div>
+                            <small class="text-muted mt-3 d-block">We respect your privacy. Unsubscribe at any time.</small>
+                        </form>
+                    </div>
                 </div>
-            </form>
+            {% else %}
+                <!-- Message for Guests -->
+                <div class="card shadow-sm border-0 border-top border-danger border-4">
+                    <div class="card-body p-5 text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-shield-lock text-muted" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h4 class="fw-bold">Members Only</h4>
+                        <p class="text-muted mb-4">You must register or login to subscribe to our exclusive newsletter.</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="{% url 'login' %}" class="btn btn-danger px-4">Login</a>
+                            <a href="{% url 'register' %}" class="btn btn-outline-danger px-4">Register</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
         </div>
     </div>
-{% else %}
-        <div class="row justify-content-center">
-        <div class="col-lg-6">
-    <h5 class="mb-3">You must Register or Login, to subscribe to us.</h5>
-        </div>
-        </div>
-{% endif %}
+</div>
+
+<style>
+    input[type="email"] {
+        border: 2px solid #dee2e6;
+        border-right: none; /* Smooth connection to the button */
+        border-radius: 0.5rem 0 0 0.5rem !important;
+        padding-left: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    input[type="email"]:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.15);
+        outline: none;
+    }
+
+    /* Button Styling */
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        border-radius: 0 0.5rem 0.5rem 0 !important;
+        transition: all 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #bb2d3b;
+        transform: scale(1.02);
+    }
+
+    .btn-outline-danger:hover {
+        color: white;
+    }
+</style>
 {% endblock %}
